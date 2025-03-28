@@ -1,3 +1,5 @@
+import random
+
 class ListaDePalavras:   #sortear palavra da lista presente no arquivo txt
 
     def __init__(self, arquivo="palavras_forca.txt"):
@@ -9,5 +11,4 @@ class ListaDePalavras:   #sortear palavra da lista presente no arquivo txt
             return [linha.strip() for linha in f.readlines()]
         
     def escolher_palavra(self):
-        import random
         return random.choice(self.palavras)

@@ -1,4 +1,8 @@
 class JogoDaForca:
+    #atributo x tipo
+    jogador: Jogador
+    palavra: Palavra
+    letras_escolhidas: set = set()
 
     def __init__(self, jogador, lista_de_palavras):    #jogador inicia o jogo sorteando a palavra
         self.jogador = jogador
