@@ -1,4 +1,5 @@
 import random
+from palavra import Palavra
 
 class ListaDePalavras:   #sortear palavra da lista presente no arquivo txt
 
@@ -8,7 +9,7 @@ class ListaDePalavras:   #sortear palavra da lista presente no arquivo txt
 
     def carregar_palavras(self):
         with open(self.arquivo, "r", encoding="utf-8") as f:
-            return [linha.strip() for linha in f.readlines()]
+            return [Palavra(descricao=linha.strip()) for linha in f.readlines()]
         
     def escolher_palavra(self):
         return random.choice(self.palavras)

@@ -1,64 +1,52 @@
-import random
+from jogo import JogoDaForca
+from lista_palavras import ListaDePalavras
+from jogador import Jogador
 
-print("Bem-vindo ao Jogo da Forca!")
+def criar_jogador():
+    nome= input("Digite seu nome:")
+    idade= int(input("Digite sua idade:"))
+    return Jogador(nome, idade)
 
-with open('palavras_forca.txt', 'r') as arquivo:
-    palavras = [p.strip() for p in arquivo.readlines() if p.strip()]
+def jogar(jogador):
 
-def sortear_palavra():
-    return random.choice(palavras)
+    lista_palavras= ListaDePalavras()
+    palavra= lista_palavras.escolher_palavra()
+    jogo_da_forca= JogoDaForca(jogador=jogador, palavra=palavra)
 
-def exibir_palavra_oculta(palavra):
-    return " ".join("_" for _ in palavra)
-
-def imprimir_palavra_parcialmente(palavra, letras_acertadas):
-    palavra_parcial = ""
-    for letra in palavra:
-        if letra in letras_acertadas:
-            palavra_parcial+=letra
-        else :
-            palavra_parcial+="_"
-    return palavra_parcial
-
-#sortear
-palavra = sortear_palavra()
-print(f"A palavra sorteada possui {len(palavra)} letras.")
-print(exibir_palavra_oculta(palavra))
-
-print("")
-
-#set
-letras_escolhidas = set()  
-letras_acertadas = set()
-erros_restantes = 6  
-
-acertou_palavra = False
-
-#loop
-while erros_restantes > 0 and not acertou_palavra: #enquanto tiver erros restantes e não acertar a palavra
-    letra = input("Digite uma letra:")
-
-    if letra in letras_escolhidas:  #verificar se a letra escolhida já foi chamada
-        print("A letra digitada já foi utilizada anteriormente")
-        continue
-    else :
-        letras_escolhidas.add(letra)
+    print(f"A palavra sorteada possui {len(jogo_da_forca.palavra.descricao)} letras.")
+    jogo_da_forca.atualizar_palavra_atual()
+    print(" ".join(jogo_da_forca.palavra_atual))
     
-    if letra in palavra:  #verificar se usuário acertou
-        print("Você acertou!")
-        letras_acertadas.add(letra)
-    else :
-        print("Você errou!") 
-        erros_restantes -= 1
-        print(f"Você tem {erros_restantes} tentativas!")
-    
-    palavra_parcialmente_preenchida= imprimir_palavra_parcialmente(palavra, letras_acertadas)
-    print( " ".join(_ for _ in palavra_parcialmente_preenchida))
-    
-    if erros_restantes == 0: #Verificar se as tentativas acabaram
-        print(f"Você perdeu! A palavra era {palavra}")
-        continue
-    if palavra_parcialmente_preenchida == palavra: #Verificar se todas as letras foram encontradas
-        print("Você ganhou!")
-        acertou_palavra = True
-        continue
+    while jogo_da_forca.tentativas > 0 and not jogo_da_forca.acertou_palavra: #enquanto tiver erros restantes e não acertar a palavra
+        letra = input("Digite uma letra:")
+        jogo_da_forca.processar_tentativa(letra=letra)
+
+        jogo_da_forca.atualizar_palavra_atual()     #mostra a nova versão da palavra
+        print(" ".join(jogo_da_forca.palavra_atual))
+        
+        if "_" not in jogo_da_forca.palavra_atual:
+            print("Você ganhou!")
+            jogo_da_forca.acertou_palavra = True
+
+    if not jogo_da_forca.acertou_palavra:
+            print(f"Você perdeu! A palavra era '{jogo_da_forca.palavra}'.")
+
+jogador = None
+
+while True:
+    print("Escolha sua ação")
+    print("1 - Criar jogador")
+    print("2 - Jogar")
+    acao= int(input())
+
+
+    if acao == 1:
+        jogador = criar_jogador()
+        print(jogador)
+        jogar(jogador)
+
+    elif acao == 2:
+        if jogador is None:
+            print("Você precisa criar um jogador antes de jogar.")
+        else:
+            jogar(jogador)

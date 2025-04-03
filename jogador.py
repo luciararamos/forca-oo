@@ -11,5 +11,5 @@ class Jogador:   #dados do jogador
         return self.nome
     
     def __str__(self):
-        return self.idade
+        return f"Nome: {self.nome} Idade: {self.idade}"
     
