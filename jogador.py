@@ -8,8 +8,5 @@ class Jogador:   #dados do jogador
         self.idade = idade
 
     def __str__(self):
-        return self.nome
-    
-    def __str__(self):
         return f"Nome: {self.nome} Idade: {self.idade}"
     

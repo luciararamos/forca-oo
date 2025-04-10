@@ -18,8 +18,8 @@ class TesteJogoDaForca(unittest.TestCase):  #testes baseado na palavra anel
         self.assertEqual(self.jogo.palavra_atual, ["_"] * len(self.palavra.descricao))
         
     def test_exibir_palavra_oculta(self):
-        resultado = self.jogo.exibir_palavra_oculta()
-        self.assertEqual(resultado, "_ _ _ _")  
+        palavra_oculta = self.jogo.exibir_palavra_oculta()
+        self.assertEqual(palavra_oculta, "_ _ _ _")  
 
     def test_processar_tentativa_correta(self):
         self.jogo.processar_tentativa("n")
